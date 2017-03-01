@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/holder/app/util/ValidatorMessages.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/resources/properties/ValidatorMessages_ja.properties=ISO-8859-1
+encoding//src/main/resources/properties/application.properties=UTF-8
+encoding//src/main/resources/properties/database.properties=UTF-8
+encoding//src/main/resources/properties/datetime.properties=UTF-8
+encoding//src/main/resources/properties/messages.properties=UTF-8
+encoding//src/main/resources/properties/template_url.properties=UTF-8
+encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
+encoding/<project>=UTF-8

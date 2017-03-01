@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+
+<!-- 
+■■■■■ エラーレベル ■■■■■
+ DEBUG　＜　INFO　＜　WARN　＜　ERROR　＜　FATAL
+
+■■■■■ アペンダ(ログ出力設定) ■■■■■
+参考: https://logback.qos.ch/manual/appenders_ja.html
+
+クラス                                                                                                                  出力先
+――――――――――――――――――――――――――――――――――――――――――――――――――  ―――――――――――――――――――――――――
+org.apache.log4j.ConsoleAppender                    コンソール
+org.apache.log4j.DailyRollingFileAppender           ファイル
+org.apache.log4j.FileAppender
+org.apache.log4j.RollingFileAppender
+org.apache.log4j.WriterAppender                     Java.io.Writer
+org.apache.log4j.net.JMSAppender                    JMS（Java Message Service）
+org.apache.log4j.net.SMTPAppender                   電子メール
+org.apache.log4j.net.SocketAppender                 リモートソケットサーバ
+org.apache.log4j.net.SyslogAppender                 リモートUnixSyslogデーモン
+org.apache.log4j.nt.NTEventLogAppender              WindowsNTのイベント・ログ
+org.apache.log4j.AsyncAppender                      その他
+org.apache.log4j.performance.NullAppender
+org.apache.log4j.varia.ExternallyRolledFileAppender
+
+■■■■■ ローリングポリシー(ログ周期設定) ■■■■■
+クラス                                                                                                                   トリガ
+――――――――――――――――――――――――――――――――――――――――――――――――――   ―――――――――――――――――――――――――
+org.apache.log4j.rolling.TimeBasedRollingPolicy      時間
+org.apache.log4j.rolling.SizeBasedTriggeringPolicy   ファイルサイズ
+org.apache.log4j.rolling.FilterBasedTriggeringPolicy ログイベント
+
+<common option>
+・File 出力するログファイル名
+
+・TimeBasedRollingPolicy
+ファイル名パターンからローテートすべきタイミングを拾い出して時間ベースのトリガ・タイミングを得る。
+<option>
+  ・FileNamePattern バックアップファイル名のパターン
+                                         拡張子に.zip, .tar.gzを指定すると同時に圧縮処理も行われる.
+  ・maxHistory      削除せずに保持しておくアーカイブファイルの最大数 (月単位)
+      
+・SizeBasedTriggeringPolicy
+<option>
+  ・MaxFileSize
+
+・FilterBasedTriggeringPolicy
+ログの内容からローテートを行うか判断する。
+(例:サーバーの起動ログ(特定のログ)が出力された場合にログテートする等)
+
+■■■■■ フィルター ■■■■■
+■　LevelFilter
+指定されたレベルなら ログを出力する
+<filter class="ch.qos.logback.classic.filter.LevelFilter">
+　　<level>INFO</level>
+　　<onMatch>ACCEPT</onMatch>
+　　<onMismatch>DENY</onMismatch>
+</filter>
+
+■ ThresholdFilter
+指定されたレベル "以上" ならログを出力する
+<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <level>ERROR</level>
+</filter>
+
+■■■■■ PatternLayout ■■■■■
+<変換指定子>
+%date(%d)         日付のフォーマット.%d{ISO8601}のようにも書ける. {pattern, timezone}のように第二引数をとることが出来る. {yyyy-MM-dd HH:flag_mm:ss.SSS'Z',UTC}のように指定する.
+%msg(%m,%message) ログメッセージ
+%n                改行コード
+%thread(%t )      ログ出力スレッドの名前
+%level(%p,%le)    ログレベル
+%logger(%c,%lo)   カテゴリ名. {}の中の数字で, パッケージの階層表示の出力を指定する. %c{1}だとcom.example.loggingの「logging」だけの出力になる.
+
+%caller           位置情報
+%file(%F)         ログを生成したソースファイル名
+%line(%L)         ログを生成したソースの行番号
+%class(%C)        クラスの完全名
+%method(M)        メソッド名
+
+<書式修飾子>
+データの幅や文字揃えを行う。
+-	左揃えにします.
+10	最小幅10文字で足りない分は先頭に半角スペースを付加します(右揃えに).
+-10	最小幅10文字で足りない分は末尾に半角スペースを付加します(左揃えに).
+.20	最大幅20文字で超えた分は先頭から削除します.
+.-20	最大幅20文字で超えた分は末尾から削除します.
+例)%-20.30logger
+
+
+http://qiita.com/TEBASAKI/items/bdbecdb22249913d6b67
+-->
+
+<configuration>
+  <jmxConfigurator />
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  
+  <!-- ログの出力ディレクトリ -->
+  <property name="LOG_DIR" value="C:/var/log/java_web_application/" />
+  <!-- ログのバックアップディレクトリ -->
+  <property name="LOG_BACK_DIR" value="C:/var/log/java_web_application/back/" />
+  <!-- ログバックアップ時のファイルプレフィックス -->
+  <property name="LOG_BACKUP_PREFIX" value=".%d{yyyy-MM-dd}" />
+  <!-- ログフォーマット形式 -->
+  <property name="ENCODER_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%logger{35}:%line]%msg%n" />
+  
+  <property name="CHARSET" value="UTF-8"/>
+  
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->  
+  <!-- 標準出力の設定 -->
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <!-- %-5level(5文字で揃うよう空白挿入し、左寄せ)
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	    <level>INFO</level>
+	</filter>
+    <encoder>
+      <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender> -->
+
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <!-- INFOログの設定 -->
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <property name="INFO_LOG_FILE_NAME" value="info.log" />
+  <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	    <level>TRACE</level>
+	</filter>
+    <file>${LOG_DIR}${INFO_LOG_FILE_NAME}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_BACK_DIR}${INFO_LOG_FILE_NAME}${LOG_BACKUP_PREFIX}</fileNamePattern>
+      <maxHistory>1</maxHistory>
+    </rollingPolicy>
+    <encoder>
+       <charset>${CHARSET}</charset>
+       <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <!-- ERRORログの設定 -->
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <property name="ERROR_LOG_FILE_NAME" value="error.log" />
+  <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <file>${LOG_DIR}${ERROR_LOG_FILE_NAME}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_BACK_DIR}${ERROR_LOG_FILE_NAME}${LOG_BACKUP_PREFIX}</fileNamePattern>
+      <maxHistory>14</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <charset>${CHARSET}</charset>
+      <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+　　<!-- WARNログの設定 -->
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <property name="WARN_LOG_FILE_NAME" value="warn.log" />
+  <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+	<file>${LOG_DIR}${WARN_LOG_FILE_NAME}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_BACK_DIR}${WARN_LOG_FILE_NAME}${LOG_BACKUP_PREFIX}</fileNamePattern>
+      <maxHistory>14</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <charset>${CHARSET}</charset>
+      <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <!-- TRACEログの設定 -->
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+  <property name="TRACE_LOG_FILE_NAME" value="info.log" />
+  <appender name="TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	    <level>TRACE</level>
+	</filter>
+    <file>${LOG_DIR}${TRACE_LOG_FILE_NAME}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_BACK_DIR}${TRACE_LOG_FILE_NAME}${LOG_BACKUP_PREFIX}</fileNamePattern>
+      <maxHistory>1</maxHistory>
+    </rollingPolicy>
+    <encoder>
+       <charset>${CHARSET}</charset>
+       <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― -->
+　　<!-- DBトレース -->
+  <!-- ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+  <property name="DB_TRACE_LOG_FILE_NAME" value="db.log" />
+  <appender name="DB_TRACE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${ENCODER_PATTERN}</pattern>
+    </encoder>
+  </appender>
+    
+  <logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="false">
+  	<appender-Ref ref="DB_TRACE" />
+  </logger>
+  <logger name="org.springframework.jdbc.core" level="trace">
+  	<appender-Ref ref="DB_TRACE" />
+  </logger>
+  <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="trace">
+  	<appender-Ref ref="DB_TRACE" />
+  </logger>
+
+  <logger name="holder.infra.log" level="trace">
+  </logger>  
+   -->
+<!-- org.springframework.jdbc.core.StatementCreatorUtils -->
+<!-- org.springframework.jdbc.core.PreparedStatementCreator -->
+<!-- org.springframework.jdbc.core.CallableStatementCreator -->
+
+  <root>
+      <appender-ref ref="TRACE" />
+  </root>
+</configuration>

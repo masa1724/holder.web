@@ -1,0 +1,13 @@
+ClassNotFoundExceptionが起きた場合
+プロジェクトを右クリック
+↓
+プロパティ
+↓
+デプロイメントアセンブリー
+↓
+追加
+↓
+Maven依存ライブラリを追加する。
+
+
+https://www.draw.io/#DFlow.html

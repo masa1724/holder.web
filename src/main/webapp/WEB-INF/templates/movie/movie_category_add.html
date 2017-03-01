@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>動画一覧</title>
+</head>
+<body>
+<style type="text/css">
+.input-error{
+color:red;
+}
+table, td,th{
+border: 1px solid;
+}
+</style>
+
+<h1>動画一覧 HTML</h1>
+<form th:action="@{/movie/category}" th:object="${form}" method="post">
+  name:<br><input type="text" th:field="*{name}" /><br>
+  <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:class="input-error">name error</span><br>
+  <button type="submit">追加</button>
+</form>
+</body>
+</html>

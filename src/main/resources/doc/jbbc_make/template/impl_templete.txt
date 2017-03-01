@@ -1,0 +1,73 @@
+package holder.domain.repository.${book};
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
+
+import holder.app.database.SQL;
+import holder.domain.model.${book}.${Book};
+
+@Repository
+public class ${Book}RepositoryImp implements ${Book}Repository {
+	
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+	
+	public List<${Book}> findList(${Book} ${book}) throws DataAccessException, IOException {
+		SqlParameterSource parameter = new BeanPropertySqlParameterSource(${book});
+		return jdbcTemplate.query(SQL.getSQL("${Book}.findList"), parameter, new ${Book}RowMapper());
+	}
+	
+	public ${Book} find(${Book} ${book}) throws DataAccessException, IOException {
+		SqlParameterSource parameter = new BeanPropertySqlParameterSource(${book});
+		return jdbcTemplate.queryForObject(SQL.getSQL("${Book}.find"), parameter, new ${Book}RowMapper());
+	}
+
+	public int update(${Book} ${book}) throws DataAccessException, IOException {
+		SqlParameterSource parameter = new BeanPropertySqlParameterSource(${book});
+		return jdbcTemplate.update(SQL.getSQL("${Book}.update"), parameter);		
+	}
+	
+	public int register(${Book} ${book}) throws DataAccessException, IOException {
+		SqlParameterSource parameter = new BeanPropertySqlParameterSource(${book});
+		return jdbcTemplate.update(SQL.getSQL("${Book}.register"), parameter);		
+	}
+		
+	public int delete(String ${book}Id) throws DataAccessException, IOException {
+		SqlParameterSource parameter = new MapSqlParameterSource()
+		         .addValue(BOOK_ID, ${book}Id);
+		int count = jdbcTemplate.update(SQL.getSQL("${Book}.delete"), parameter);
+		return count;
+	}
+	
+	class ${Book}ResultSetExtractor implements ResultSetExtractor<${Book}> {
+		public ${Book} extractData(ResultSet rs) throws SQLException, DataAccessException {
+			if(!rs.next()) return null;
+			return build${Book}(rs);
+		}
+	}
+	
+	class ${Book}RowMapper implements RowMapper<${Book}> {
+		public ${Book} mapRow(ResultSet rs, int rowNum) throws SQLException{
+			return build${Book}(rs);
+		}
+	}
+	
+	private ${Book} build${Book}(ResultSet rs) throws SQLException {
+		${Book} ${book} = ${Book}.builder()
+${field}
+				.build();
+		return ${book};
+	}
+}

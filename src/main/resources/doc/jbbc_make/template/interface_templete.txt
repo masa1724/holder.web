@@ -1,0 +1,18 @@
+package holder.domain.repository.${book};
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.dao.DataAccessException;
+
+import holder.domain.model.${book}.${Book};
+
+public interface ${Book}Repository {
+${field}
+	public List<${Book}> findList(${Book} ${book}) throws DataAccessException, IOException;
+	public ${Book} find(${Book} ${book}) throws DataAccessException, IOException;
+	public int register(${Book} ${book}) throws DataAccessException, IOException;
+	public int update(${Book} ${book}) throws DataAccessException, IOException;
+	public int delete(String ${book}Id) throws DataAccessException, IOException;
+}
+

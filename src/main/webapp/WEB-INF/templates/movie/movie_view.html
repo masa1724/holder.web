@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>動画</title>
+</head>
+<body>
+<style type="text/css">
+</style>
+
+<div th:object="${movieInfo}">
+  <video th:src="*{path}">
+    <p>動画を再生するにはvideoタグをサポートしたブラウザが必要です。</p>
+  </video>
+  <ul>
+    <li>[[*{movieId}]]</li>
+    <li>[[*{systemUserId}]]</li>
+    <li>[[*{title}]]</li>
+    <li>[[*{description}]]</li>
+    <li>[[*{path}]]</li>
+    <li>[[*{status}]]</li>
+    <li>[[*{created}]]</li>
+    <li>[[*{modified}]]</li>
+    <li>[[*{categoryId}]]</li>
+    <li>[[*{categoryName}]]</li>
+    <li>[[*{categoryStatus}]]</li>
+    <li>[[*{groupId}]]</li>
+    <li>[[*{groupName}]]</li>
+    <li>[[*{groupStatus}]]</li>
+  </ul>
+</div>
+</body>
+</html>

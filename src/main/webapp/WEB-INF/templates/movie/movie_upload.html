@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>動画アップロード</title>
+<script th:src="@{/js/movie_upload.js}" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<h1>動画アップロード</h1>
+<form th:action="@{/movie/upload/add}" th:object="${form}" method="post" enctype="multipart/form-data">
+  
+     グループ：
+  <select th:field="*{groupId}">
+    <option th:each="group : ${movieGroupList}" th:value="${group.groupId}">[[${group.name}]]</option>
+  </select><br>
+  <span th:if="${#fields.hasErrors('groupId')}" th:errors="*{groupId}" th:class="input-error">groupId error</span><br>
+  
+     カテゴリ：
+  <select th:field="*{categoryId}">
+    <option th:each="category : ${movieCategoryList}" th:value="${category.categoryId}">[[${category.name}]]</option>
+  </select>
+  <div th:if="${#lists.isEmpty(movieCategoryList)}">
+  	カテゴリ未登録。
+  </div><br>
+  <span th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" th:class="input-error">categoryId error</span><br>
+  
+    ファイル選択：<br><input type="file" th:field="*{multipartFiles}" multiple/><br>
+  <span th:if="${#fields.hasErrors('multipartFiles')}" th:errors="*{multipartFiles}" th:class="input-error">multipartFiles error</span><br>
+  name:<br><input type="text" th:field="*{name}" /><br>
+  <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:class="input-error">name error</span><br>
+  
+     備考:<br><textarea th:field="*{description}" rows="6" cols="50" ></textarea><br>
+  <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:class="input-error">description error</span><br>
+  
+  <button type="submit">送信</button>
+</form>
+</body>
+</html>

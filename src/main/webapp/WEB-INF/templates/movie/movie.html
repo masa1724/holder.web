@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>動画一覧</title>
+<script src="@{/js/query.js}"></script>
+</head>
+<body>
+<style type="text/css">
+.input-error{
+color:red;
+}
+table, td,th{
+border: 1px solid;
+}
+</style>
+
+<script>
+	function changeMovieGroup(elem) {
+		location.href = "/holder.web/movie?group_id=" + elem.value;
+	}
+
+	function initMovieGroup() {
+		var options = document.getElementById('movie-group').options;
+		var queryStr = GetQueryString();
+		
+		if (!queryStr.has("group_id")) {
+			return;
+		}
+		
+		var groupId = queryStr.get("group_id");
+		for (var i = 0; i < options.length; i++) {
+			if (options[i].value === groupId) {
+				options[i].selected = true;
+				break;
+			}
+		}
+	}
+		
+	window.onload = initMovieGroup;
+</script>
+
+<h1>カテゴリ一覧</h1>
+<!-- グループが存在する場合 -->
+<span th:if="${not #lists.isEmpty(movieGroupList)}">
+  <select id="movie-group" name="movie-group" onchange="changeMovieGroup(this);">
+    <option th:each="group : ${movieGroupList}" th:value="${group.groupId}">[[${group.name}]]</option>
+  </select>
+</span>
+<!-- グループが存在しない場合 -->
+<span th:if="${#lists.isEmpty(movieGroupList)}">
+	<h3>グループが未登録です。</h3>
+</span>
+
+<a href="/holder.web/movie/category/add" alt="カテゴリを追加する">カテゴリを追加する</a>
+<a href="/holder.web/movie/upload" alt="アップロード">アップロード</a>
+<a href="/holder.web/movie/view" alt="視聴">視聴</a>
+
+<!-- カテゴリが存在する場合 -->
+<div th:if="${not #lists.isEmpty(movieCategoryList)}">
+  <ul th:each="category : ${movieCategoryList}" th:object="${category}">
+	<li><a href="/movie/category" th:href="@{/movie/category(category_id=*{categoryId})}">[[*{name}]]</a></li>
+  </ul>
+</div>
+<!-- カテゴリが存在しない場合 -->
+<div th:if="${#lists.isEmpty(movieCategoryList)}">
+	<h3>カテゴリが未登録です。</h3>
+</div>
+
+</body>
+</html>

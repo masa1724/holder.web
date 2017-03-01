@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>本アップロード</title>
+</head>
+<body>
+<h1>本アップロード</h1>
+${error_msg_file}
+${upload_files}
+<spring:url value="/movie/upload" var="action" />
+<form:form action="${action}" modelAttribute="form" method="post" enctype="multipart/form-data">
+  <input type="file" name="multipartFiles" multiple/><br>
+  <form:errors path="multipartFiles" />
+  <form:input path="categoryId"/><br>
+  <form:errors path="categoryId" />
+  <form:input path="name"/><br>
+  <form:errors path="name" />
+  <form:input path="discription"/><br>
+  <form:errors path="discription" />
+  <button type="submit">送信</button>
+</form:form>
+
+</body>
+</html>

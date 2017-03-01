@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		 http://www.springframework.org/schema/beans
+	     http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/context
+	     http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/tx
+	     http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/mvc
+	     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	     http://www.springframework.org/schema/aop
+	     http://www.springframework.org/schema/aop/spring-aop.xsd
+	     http://www.springframework.org/schema/util
+	     http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- DIコンテナへの登録 -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<context:component-scan base-package="holder.app" />
+	<context:component-scan base-package="holder.domain" />
+	<context:component-scan base-package="holder.infra" />
+	
+	<!-- Handler Mapping -->
+	<!-- use default -->
+	
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- ViewResolver -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver"> 
+		<property name="prefix" value="/WEB-INF/templates/" />
+		<property name="suffix" value=".html" />
+		<property name="characterEncoding" value="UTF-8"/>
+		<property name="templateMode" value="HTML5" />
+		<property name="cacheable" value="false"/> 
+	</bean>
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+	</bean>
+	<bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="order" value="1" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="templateEngine" ref="templateEngine" />
+	</bean>
+	
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- 各アノテーションの有効化 -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- MVCアノテーション有効化 -->
+	<mvc:annotation-driven />
+
+	<!-- PostConstruct,PreDestroy等のアノテーションを有効化 -->
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- 静的リソースのマッピング -->
+	<!-- location属性の値の末尾には必ず/をつけること -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<mvc:resources mapping="/resources/**" location="/resources/" cache-period="3600"/>
+	<mvc:resources mapping="/img/**" location="/WEB-INF/static/img/" cache-period="3600"/>
+	<mvc:resources mapping="/js/**" location="/WEB-INF/static/js/" cache-period="3600"/>
+	<mvc:resources mapping="/css/**" location="/WEB-INF/static/css/" cache-period="3600"/>
+	<mvc:resources mapping="/movie/**" location="/WEB-INF/static/movie/" cache-period="3600"/>
+	
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- メッセージリソース -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->	
+	<!-- バリデーションメッセージ -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:properties/ValidatorMessages"/>
+    </bean>
+
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- 外部ファイルの読込み -->
+	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
+	<!-- bean定義ファイル -->
+	<import resource="applicationContext-transaction.xml" />
+	
+	<!-- プロパティファイル -->
+	<import resource="applicationContext-properties.xml" />
+	
+	<!-- SpringSecurity
+	<import resource="security-context.xml" />-->
+	
+	
+	<!-- AOP有効化 -->
+	<aop:aspectj-autoproxy />
+	
+</beans>

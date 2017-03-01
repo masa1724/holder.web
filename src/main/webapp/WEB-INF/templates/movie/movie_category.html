@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>動画一覧</title>
+</head>
+<body>
+<style type="text/css">
+.input-error{
+color:red;
+}
+table, td,th{
+border: 1px solid;
+}
+</style>
+
+<h1>動画一覧</h1>
+<ul th:each="movie : ${movieList}" th:object="${movie}">
+	<li><a href="/movie/view" th:href="@{/movie/view(movie_id=*{movieId})}">[[*{title}]]</a></li>
+</ul>
+</body>
+</html>
