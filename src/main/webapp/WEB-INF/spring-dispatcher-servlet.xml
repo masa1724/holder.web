@@ -22,6 +22,7 @@
 	<!-- DIコンテナへの登録 -->
 	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
 	<context:component-scan base-package="holder.app" />
+	<context:component-scan base-package="holder.api" />
 	<context:component-scan base-package="holder.domain" />
 	<context:component-scan base-package="holder.infra" />
 	
@@ -73,7 +74,7 @@
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:properties/ValidatorMessages"/>
     </bean>
-
+	
 	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
 	<!-- 外部ファイルの読込み -->
 	<!--――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――-->
@@ -86,8 +87,6 @@
 	<!-- SpringSecurity
 	<import resource="security-context.xml" />-->
 	
-	
 	<!-- AOP有効化 -->
 	<aop:aspectj-autoproxy />
-	
 </beans>

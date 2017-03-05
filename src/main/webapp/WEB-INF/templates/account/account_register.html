@@ -13,7 +13,7 @@ color:red;
 </style>
 
 <h1>アカウント登録</h1>
-<form th:action="@{/accountregister}" th:object="${form}" method="post">
+<form th:action="@{/account/register}" th:object="${form}" method="post">
   name:<br><input type="text" th:field="*{name}" /><br>
   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:class="input-error">name error</span><br>
   email:<br><input type="text" th:field="*{email}" /><br>

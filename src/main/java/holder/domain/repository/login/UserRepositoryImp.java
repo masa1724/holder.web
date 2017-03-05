@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import holder.app.util.DateTimeUtils;
+import holder.app.utils.date.DateTimeUtils;
 import holder.domain.model.User;
 import holder.domain.repository.common.SQL;
 
@@ -58,7 +58,7 @@ public class UserRepositoryImp implements UserRepository {
 	}
 	
 	public int register(User user) throws DataAccessException, IOException {
-		SqlParameterSource parameter = new BeanPropertySqlParameterSource(user);
+		 SqlParameterSource parameter = parseParameter(user);
 		return jdbcTemplate.update(SQL.getSQL("User.register"), parameter);		
 	}
 		
@@ -126,6 +126,22 @@ public class UserRepositoryImp implements UserRepository {
 				.created(DateTimeUtils.toLocalDateTime(rs.getTimestamp(CREATED)))
 				.modified(DateTimeUtils.toLocalDateTime(rs.getTimestamp(MODIFIED)))
 				.build();
+		
 		return user;
+	}
+	
+	private SqlParameterSource parseParameter(User user) {
+		return new MapSqlParameterSource()
+		.addValue(SYSTEM_USER_ID, user.getSystemUserId())
+		.addValue(EMAIL, user.getEmail())
+		.addValue(PASSWORD, user.getPassword())
+		.addValue(NAME, user.getName())
+		.addValue(STATUS, user.getStatus())
+		.addValue(LOGIN_COUNT, user.getLoginCount())
+		.addValue(ERROR_COUNT, user.getErrorCount())
+		.addValue(LAST_LOGIN_TS, DateTimeUtils.toDate(user.getLastLoginTs()))
+		.addValue(OPERATION_NO, user.getOperationNo())
+		.addValue(CREATED, DateTimeUtils.toDate(user.getCreated()))
+		.addValue(MODIFIED, DateTimeUtils.toDate(user.getModified()));
 	}
 }

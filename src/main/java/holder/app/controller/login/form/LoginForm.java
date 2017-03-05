@@ -15,12 +15,10 @@ public class LoginForm implements Serializable {
 	
 	public static final String EMAIL = "email";
 	
-	@NotNull
 	@NotEmpty
 	//@Size(min = 1, max = 30)
 	private String email;
 
-	@NotNull
 	@NotEmpty
 	//@Size(min = 6, max = 30)
 	private String password;

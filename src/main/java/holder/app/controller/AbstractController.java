@@ -1,26 +1,19 @@
 package holder.app.controller;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 
-import holder.app.util.Message;
-import holder.domain.repository.common.CounterRepository;
+import holder.app.utils.message.Message;
 
 public class AbstractController {
-	@Autowired
-	private Properties templateUrlProperties;
-	
 	@Autowired
 	private Message msg;
 	
 	@Autowired
-	private CounterRepository counterRepo;
+	DefaultUrlResolver urlResolver;
 	
 	private Logger logeer = LoggerFactory.getLogger(this.getClass());
 	
@@ -59,18 +52,12 @@ public class AbstractController {
 	public void warnLog(String messageId, String[] parameter) throws IOException{
 		logeer.warn(msg.getMessage(messageId, parameter));
 	}
-	/*
-	public String getTemplateUrl(String key){
-		return templateUrlProperties.getProperty(key);
+	
+	public String getFlowURL() throws IOException {
+		return urlResolver.getFlowURL(this.getClass());
 	}
 	
-	
-	public String getRedirectUrl(String key){
-		return templateUrlProperties.getProperty("rd_" + key);
-	}
-	*/
-	
-	public String getOperationNo() throws DataAccessException, IOException{
-		return "O" + counterRepo.getCounter(CounterRepository.COUNTER_ID_OPERATION);
+	public String getFlowURL(Class<?> clazz) throws IOException {
+		return urlResolver.getFlowURL(clazz);
 	}
 }

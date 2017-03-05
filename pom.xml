@@ -282,6 +282,12 @@
      <artifactId>spring-data-redis</artifactId>
      <version>1.7.2.RELEASE</version>
   </dependency>
+  
+  <dependency>
+    <groupId>org.springframework.session</groupId>
+    <artifactId>spring-session</artifactId>
+    <version>1.3.0.RELEASE</version>
+</dependency>
 
   <!-- ログイン認証 -->
   <dependency>

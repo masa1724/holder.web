@@ -53,8 +53,8 @@
   </bean>
   
   <!-- template URL定義プロパティ -->
-  <bean id="templateUrlProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-    <property name="location"  value="classpath:properties/template_url.properties"/>
+  <bean id="defaultUrlProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="location"  value="classpath:properties/defaulturl.properties"/>
     <property name="fileEncoding" value="${file.encoding}" />    
   </bean>
 </beans>

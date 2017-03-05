@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionHandler implements HandlerExceptionResolver {
     private static final Logger logger = 
             LoggerFactory.getLogger(ExceptionHandler.class);
@@ -24,6 +25,8 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     	logger.error("例外をキャッチしました。", ex);
  
         ModelAndView mav = new ModelAndView();
+        mav.addObject("ex", ex);
+        mav.addObject("stack_trace", ex.getMessage());
         mav.setViewName("error/system_error");
         
         return mav;

@@ -17,8 +17,8 @@ public class User implements Serializable {
 	private String status;
 	private int loginCount;
 	private int errorCount;
-	private String operationNo;
 	private LocalDateTime lastLoginTs;
+	private String operationNo;
 	private LocalDateTime created;
 	private LocalDateTime modified;
 }

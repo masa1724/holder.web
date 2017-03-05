@@ -1,8 +1,6 @@
 package holder.domain.repository.common;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -23,9 +21,6 @@ public class SQL {
     }
     
 	public static String getSQL(String sqlId) throws IOException {
-		LocalDateTime dt = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddhhmmss");		
-		System.out.println("[" + dt.format(formatter) + "]" + sqlId + "=" + _sqlProperties.getProperty(sqlId));
 		return _sqlProperties.getProperty(sqlId);
 	}
 }

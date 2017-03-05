@@ -228,6 +228,6 @@ http://qiita.com/TEBASAKI/items/bdbecdb22249913d6b67
 <!-- org.springframework.jdbc.core.CallableStatementCreator -->
 
   <root>
-      <appender-ref ref="TRACE" />
+      <appender-ref ref="INFO" />
   </root>
 </configuration>

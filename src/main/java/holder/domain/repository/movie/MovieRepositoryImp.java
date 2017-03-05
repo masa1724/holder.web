@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import holder.app.util.DateTimeUtils;
+import holder.app.utils.date.DateTimeUtils;
 import holder.domain.model.movie.Movie;
 import holder.domain.model.movie.MovieInfo;
 import holder.domain.repository.common.SQL;

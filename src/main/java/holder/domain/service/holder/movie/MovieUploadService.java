@@ -11,8 +11,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import holder.app.util.DateTime;
-import holder.app.util.MessageId;
+import holder.app.utils.date.DateTime;
+import holder.app.utils.message.MessageId;
 import holder.domain.model.movie.Movie;
 import holder.domain.model.movie.MovieCategory;
 import holder.domain.repository.common.CounterRepository;

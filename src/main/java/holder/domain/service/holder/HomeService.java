@@ -2,7 +2,7 @@ package holder.domain.service.holder;
 
 import org.springframework.stereotype.Service;
 
-import holder.app.util.MessageId;
+import holder.app.utils.message.MessageId;
 import holder.domain.service.AbstractService;
 
 @Service

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import holder.app.util.Message;
+import holder.app.utils.message.Message;
 
 public class AbstractService {
 	private Logger logeer = LoggerFactory.getLogger(this.getClass());

@@ -1,6 +1,7 @@
 package holder.domain.repository.common;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,16 +16,20 @@ public class CounterRepositoryImp implements CounterRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	public int getCounter(String counterId) throws DataAccessException, IOException {
-		SqlParameterSource parameter = new MapSqlParameterSource().addValue("counter_id", counterId);
-		return jdbcTemplate.queryForObject(SQL.getSQL("Counter.GetCounter"), parameter, Integer.class);
+		SqlParameterSource parameter = 
+				new MapSqlParameterSource().addValue(CounterRepository.COUNTER_ID, counterId);
+		
+		return jdbcTemplate.queryForObject(
+				SQL.getSQL("Counter.GetCounter"), parameter, Integer.class);
 	}
 	
-	public void updateCounter(String counterId, int count) {
+	public void updateCounter(String counterId, int count) throws DataAccessException, IOException {
 		SqlParameterSource parameter = new MapSqlParameterSource()
-		         .addValue("counter_id", counterId)
-		         .addValue("count", count);
+		         .addValue(CounterRepository.COUNTER_ID, counterId)
+		         .addValue(CounterRepository.COUNT, count)
+				 .addValue(CounterRepository.MODIFIED, new Date());
 		
-		String sql = "";
-		jdbcTemplate.update(sql, parameter);
+		jdbcTemplate.update(
+				SQL.getSQL("Counter.UpdateCounter"), parameter);
 	}
 }
